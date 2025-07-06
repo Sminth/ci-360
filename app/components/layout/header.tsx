@@ -4,6 +4,7 @@ import { HistoryTrigger } from "@/app/components/history/history-trigger"
 import { AppInfoTrigger } from "@/app/components/layout/app-info/app-info-trigger"
 import { ButtonNewChat } from "@/app/components/layout/button-new-chat"
 import { UserMenu } from "@/app/components/layout/user-menu"
+import { ThemeToggle } from "@/app/components/layout/theme-toggle"
 import { useBreakpoint } from "@/app/hooks/use-breakpoint"
 import { ZolaIcon } from "@/components/icons/zola"
 import { Button } from "@/components/ui/button"
@@ -14,6 +15,7 @@ import { Info } from "@phosphor-icons/react"
 import Link from "next/link"
 import { DialogPublish } from "./dialog-publish"
 import { HeaderSidebarTrigger } from "./header-sidebar-trigger"
+import Image from "next/image"
 
 export function Header({ hasSidebar }: { hasSidebar: boolean }) {
   const isMobile = useBreakpoint(768)
@@ -33,8 +35,7 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
                 href="/"
                 className="pointer-events-auto inline-flex items-center text-xl font-medium tracking-tight"
               >
-                <ZolaIcon className="mr-1 size-4" />
-                {APP_NAME}
+                <Image src="/logo2.png" alt="CI-360 Logo" width={114} height={114} priority />
               </Link>
               {hasSidebar && isMobile && <HeaderSidebarTrigger />}
             </div>
@@ -42,6 +43,7 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
           <div />
           {!isLoggedIn ? (
             <div className="pointer-events-auto flex flex-1 items-center justify-end gap-4">
+              <ThemeToggle />
               <AppInfoTrigger
                 trigger={
                   <Button
@@ -63,6 +65,7 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
             </div>
           ) : (
             <div className="pointer-events-auto flex flex-1 items-center justify-end gap-2">
+              <ThemeToggle />
               {!isMultiModelEnabled && <DialogPublish />}
               <ButtonNewChat />
               {!hasSidebar && <HistoryTrigger hasSidebar={hasSidebar} />}

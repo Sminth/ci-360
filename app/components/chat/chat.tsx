@@ -14,10 +14,11 @@ import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "motion/react"
 import dynamic from "next/dynamic"
 import { redirect } from "next/navigation"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useChatCore } from "./use-chat-core"
 import { useChatOperations } from "./use-chat-operations"
 import { useFileUpload } from "./use-file-upload"
+import Image from "next/image"
 
 const FeedbackWidget = dynamic(
   () => import("./feedback-widget").then((mod) => mod.FeedbackWidget),
@@ -30,6 +31,25 @@ const DialogAuth = dynamic(
 )
 
 export function Chat() {
+  const [rotation, setRotation] = useState(0)
+  const [scale, setScale] = useState(1)
+
+  // Animation de rotation lente
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotation((prev) => (prev + 0.5) % 360)
+    }, 50)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Animation de pulsation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setScale((prev) => (prev === 1 ? 1.1 : 1))
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
   const { chatId } = useChatSession()
   const {
     createNewChat,
@@ -217,11 +237,26 @@ export function Chat() {
               },
             }}
           >
-            <h1 className="mb-6 text-3xl font-medium tracking-tight">
-              Comment puis-je vous aider aujourd'hui ?
+              <motion.div
+        className="relative h-14 w-14 mx-auto"
+        style={{
+          transform: `rotate(${rotation}deg) scale(${scale})`,
+          transition: "transform 0.6s ease-in-out",
+        }}
+      >
+        <Image
+          src="/logo.png"
+          alt="CI-360 Logo"
+          width={56}
+          height={56}
+          priority
+        />
+      </motion.div>
+            <h1 className="mb-6 mt-3 text-3xl font-medium tracking-tight text-center">
+              Comment puis-je vous aider <span className="text-green-600"> aujourd'hui ?</span>
             </h1>
             <p className="text-muted-foreground text-center text-lg mb-8">
-              Je suis CI-360, votre assistant pour les opportunités en Côte d'Ivoire
+              Je suis CI-360, Votre assistant numérique intelligent pour trouver facilement les opportunités d'emploi, de formation, de financement, de bourses ou de stages en Côte d'Ivoire
             </p>
           </motion.div>
         ) : (

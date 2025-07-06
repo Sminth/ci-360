@@ -7,12 +7,13 @@ import {
 import { useUserPreferences } from "@/lib/user-preference-store/provider"
 import { cn } from "@/lib/utils"
 import type { Message as MessageAISDK } from "@ai-sdk/react"
-import { ArrowClockwise, Check, Copy } from "@phosphor-icons/react"
+import { Check, Copy, Share } from "@phosphor-icons/react"
 import { getSources } from "./get-sources"
 import { Reasoning } from "./reasoning"
 import { SearchImages } from "./search-images"
 import { SourcesList } from "./sources-list"
 import { ToolInvocation } from "./tool-invocation"
+import { ShareButton } from "./share-button"
 
 type MessageAssistantProps = {
   children: string
@@ -128,18 +129,11 @@ export function MessageAssistant({
             </MessageAction>
             {isLast ? (
               <MessageAction
-                tooltip="Regenerate"
+                tooltip="Partager"
                 side="bottom"
                 delayDuration={0}
               >
-                <button
-                  className="hover:bg-accent/60 text-muted-foreground hover:text-foreground flex size-7.5 items-center justify-center rounded-full bg-transparent transition"
-                  aria-label="Regenerate"
-                  onClick={onReload}
-                  type="button"
-                >
-                  <ArrowClockwise className="size-4" />
-                </button>
+                <ShareButton content={children} />
               </MessageAction>
             ) : null}
           </MessageActions>
