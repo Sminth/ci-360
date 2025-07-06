@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from "motion/react"
 import dynamic from "next/dynamic"
 import { redirect } from "next/navigation"
 import { useMemo, useState } from "react"
+import { WelcomeScreen } from "../welcome/welcome-screen"
 import { useChatCore } from "./use-chat-core"
 import { useChatOperations } from "./use-chat-operations"
 import { useFileUpload } from "./use-file-upload"
@@ -191,57 +192,39 @@ export function Chat() {
     return redirect("/")
   }
 
-  const showOnboarding = !chatId && messages.length === 0
-
   return (
-    <div
-      className={cn(
-        "@container/main relative flex h-full flex-col items-center justify-end md:justify-center"
-      )}
-    >
-      <DialogAuth open={hasDialogAuth} setOpen={setHasDialogAuth} />
-
-      <AnimatePresence initial={false} mode="popLayout">
-        {showOnboarding ? (
+    <div className="pb-[var(--app-footer-height)] relative flex h-full flex-1 flex-col justify-end overflow-y-auto">
+      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-between gap-0 px-4 pt-24 pb-[var(--app-footer-height)] md:gap-4">
+        <div className="mx-auto flex w-full flex-1 flex-col">
+          <AnimatePresence mode="sync">
+            {!initialMessages.length ? (
+              <div className="flex flex-1 items-center justify-center -mt-12">
+                <WelcomeScreen />
+              </div>
+            ) : (
+              <Conversation {...conversationProps} />
+            )}
+          </AnimatePresence>
+        </div>
+        <div className="relative">
           <motion.div
-            key="onboarding"
-            className="absolute bottom-[60%] mx-auto max-w-[50rem] md:relative md:bottom-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            className={cn(
+              "relative inset-x-0 bottom-0 z-50 mx-auto w-full max-w-3xl"
+            )}
             layout="position"
-            layoutId="onboarding"
+            layoutId="chat-input-container"
             transition={{
               layout: {
-                duration: 0,
+                duration: messages.length === 1 ? 0.3 : 0,
               },
             }}
           >
-            <h1 className="mb-6 text-3xl font-medium tracking-tight">
-              What&apos;s on your mind?
-            </h1>
+            <ChatInput {...chatInputProps} />
           </motion.div>
-        ) : (
-          <Conversation key="conversation" {...conversationProps} />
-        )}
-      </AnimatePresence>
-
-      <motion.div
-        className={cn(
-          "relative inset-x-0 bottom-0 z-50 mx-auto w-full max-w-3xl"
-        )}
-        layout="position"
-        layoutId="chat-input-container"
-        transition={{
-          layout: {
-            duration: messages.length === 1 ? 0.3 : 0,
-          },
-        }}
-      >
-        <ChatInput {...chatInputProps} />
-      </motion.div>
-
+        </div>
+      </div>
       <FeedbackWidget authUserId={user?.id} />
+      <DialogAuth open={hasDialogAuth} setOpen={setHasDialogAuth} />
     </div>
   )
 }

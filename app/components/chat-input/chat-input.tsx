@@ -159,7 +159,7 @@ export function ChatInput({
         >
           <FileList files={files} onFileRemove={onFileRemove} />
           <PromptInputTextarea
-            placeholder="Ask Zola"
+            placeholder="Votre assistant numérique intelligent pour trouver facilement les opportunités d'emploi, de formation, de financement, de bourses ou de stages en Côte d'Ivoire."
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
             className="min-h-[44px] pt-3 pl-4 text-base leading-[1.3] sm:text-base md:text-base"
@@ -171,12 +171,7 @@ export function ChatInput({
                 isUserAuthenticated={isUserAuthenticated}
                 model={selectedModel}
               />
-              <ModelSelector
-                selectedModelId={selectedModel}
-                setSelectedModelId={onSelectModel}
-                isUserAuthenticated={isUserAuthenticated}
-                className="rounded-full"
-              />
+              
               {hasSearchSupport ? (
                 <ButtonSearch
                   isSelected={enableSearch}

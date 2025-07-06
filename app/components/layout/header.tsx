@@ -5,13 +5,14 @@ import { AppInfoTrigger } from "@/app/components/layout/app-info/app-info-trigge
 import { ButtonNewChat } from "@/app/components/layout/button-new-chat"
 import { UserMenu } from "@/app/components/layout/user-menu"
 import { useBreakpoint } from "@/app/hooks/use-breakpoint"
-import { ZolaIcon } from "@/components/icons/zola"
 import { Button } from "@/components/ui/button"
 import { APP_NAME } from "@/lib/config"
 import { useUserPreferences } from "@/lib/user-preference-store/provider"
 import { useUser } from "@/lib/user-store/provider"
 import { Info } from "@phosphor-icons/react"
 import Link from "next/link"
+import Image from "next/image"
+import { useEffect, useState } from "react"
 import { DialogPublish } from "./dialog-publish"
 import { HeaderSidebarTrigger } from "./header-sidebar-trigger"
 
@@ -20,6 +21,22 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
   const { user } = useUser()
   const { preferences } = useUserPreferences()
   const isMultiModelEnabled = preferences.multiModelEnabled
+  const [rotation, setRotation] = useState(0)
+  const [scale, setScale] = useState(1)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotation((prev) => (prev + 0.5) % 360)
+    }, 50)
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setScale((prev) => (prev === 1 ? 1.1 : 1))
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   const isLoggedIn = !!user
 
@@ -33,8 +50,10 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
                 href="/"
                 className="pointer-events-auto inline-flex items-center text-xl font-medium tracking-tight"
               >
-                <ZolaIcon className="mr-1 size-4" />
-                {APP_NAME}
+                <div className="relative h-6 w-6 mr-2" style={{ transform: `rotate(${rotation}deg) scale(${scale})`, transition: 'transform 0.2s ease-out' }}>
+                  <Image src="/logo.png" alt="CI-360 Logo" width={24} height={24} priority />
+                </div>
+                CI-360
               </Link>
               {hasSidebar && isMobile && <HeaderSidebarTrigger />}
             </div>
@@ -48,7 +67,7 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
                     variant="ghost"
                     size="icon"
                     className="bg-background hover:bg-muted text-muted-foreground h-8 w-8 rounded-full"
-                    aria-label={`About ${APP_NAME}`}
+                    aria-label={`About CI-360`}
                   >
                     <Info className="size-4" />
                   </Button>
