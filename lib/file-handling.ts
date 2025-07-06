@@ -164,7 +164,8 @@ export async function checkFileUploadLimit(userId: string) {
     .gte("created_at", startOfToday.toISOString())
 
   if (error) throw new Error(error.message)
-  if (count && count >= DAILY_FILE_UPLOAD_LIMIT) {
+  // LIMITES SUPPRIMÉES - TOUJOURS AUTORISER
+  if (DAILY_FILE_UPLOAD_LIMIT !== Infinity && count && count >= DAILY_FILE_UPLOAD_LIMIT) {
     throw new FileUploadLimitError("Daily file upload limit reached.")
   }
 

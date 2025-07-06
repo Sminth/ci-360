@@ -381,8 +381,11 @@ export function MultiChat() {
             transition={{ layout: { duration: 0 } }}
           >
             <h1 className="mb-6 text-3xl font-medium tracking-tight">
-              What's on your mind?
+              Comment puis-je vous aider aujourd'hui ?
             </h1>
+            <p className="text-muted-foreground text-center text-lg mb-8">
+              Je suis CI-360, votre assistant pour les opportunités en Côte d'Ivoire
+            </p>
           </motion.div>
         ) : (
           <motion.div

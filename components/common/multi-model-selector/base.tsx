@@ -304,32 +304,32 @@ export function MultiModelSelector({
   }
 
   // If user is not authenticated, show the auth popover
-  if (!isUserAuthenticated) {
-    return (
-      <Popover>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <PopoverTrigger asChild>
-              <Button
-                size="sm"
-                variant="secondary"
-                className={cn(
-                  "border-border dark:bg-secondary text-accent-foreground h-9 w-auto border bg-transparent",
-                  className
-                )}
-                type="button"
-              >
-                <span>Select models</span>
-                <CaretDownIcon className="size-4" />
-              </Button>
-            </PopoverTrigger>
-          </TooltipTrigger>
-          <TooltipContent>Select models</TooltipContent>
-        </Tooltip>
-        <PopoverContentAuth />
-      </Popover>
-    )
-  }
+  // if (!isUserAuthenticated) {
+  //   return (
+  //     <Popover>
+  //       <Tooltip>
+  //         <TooltipTrigger asChild>
+  //           <PopoverTrigger asChild>
+  //             <Button
+  //               size="sm"
+  //               variant="secondary"
+  //               className={cn(
+  //                 "border-border dark:bg-secondary text-accent-foreground h-9 w-auto border bg-transparent",
+  //                 className
+  //               )}
+  //               type="button"
+  //             >
+  //               <span>Select models</span>
+  //               <CaretDownIcon className="size-4" />
+  //             </Button>
+  //           </PopoverTrigger>
+  //         </TooltipTrigger>
+  //         <TooltipContent>Select models</TooltipContent>
+  //       </Tooltip>
+  //       <PopoverContentAuth />
+  //     </Popover>
+  //   )
+  // }
 
   if (isMobile) {
     return (

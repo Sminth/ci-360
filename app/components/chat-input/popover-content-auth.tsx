@@ -83,7 +83,7 @@ export function PopoverContentAuth() {
             height={20}
             className="mr-2 size-4"
           />
-          <span>{isLoading ? "Connecting..." : "Continue with Google"}</span>
+          <span>{isLoading ? "Connecting..." : "Continuepp with Google"}</span>
         </Button>
       </div>
     </PopoverContent>

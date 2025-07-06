@@ -54,12 +54,12 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
                   </Button>
                 }
               />
-              <Link
+              {/* <Link
                 href="/auth"
                 className="font-base text-muted-foreground hover:text-foreground text-base transition-colors"
               >
                 Login
-              </Link>
+              </Link> */}
             </div>
           ) : (
             <div className="pointer-events-auto flex flex-1 items-center justify-end gap-2">

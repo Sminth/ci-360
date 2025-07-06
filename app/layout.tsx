@@ -26,9 +26,9 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Zola",
+  title: "CI-360 - Assistant Opportunités Côte d'Ivoire",
   description:
-    "Zola is the open-source interface for AI chat. Multi-model, BYOK-ready, and fully self-hostable. Use Claude, OpenAI, Gemini, local models, and more, all in one place.",
+    "CI-360 est un assistant numérique intelligent qui guide les citoyens ivoiriens vers les opportunités d'emploi, de formation, de financement, de bourses et de stages en Côte d'Ivoire.",
 }
 
 export default async function RootLayout({

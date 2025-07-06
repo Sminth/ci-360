@@ -11,6 +11,8 @@ import {
   validateAndTrackUsage,
 } from "./api"
 import { createErrorResponse, extractErrorMessage } from "./utils"
+// import { opportunitiesTool } from "@/lib/tools/opportunities-tool"
+import { getCachedOpportunities } from "@/lib/services/opportunities-api"
 
 export const maxDuration = 60
 
@@ -23,6 +25,60 @@ type ChatRequest = {
   systemPrompt: string
   enableSearch: boolean
   message_group_id?: string
+}
+
+// Fonction pour enrichir le prompt avec les données d'opportunités
+async function enrichSystemPrompt(basePrompt: string): Promise<string> {
+  try {
+    const opportunities = await getCachedOpportunities()
+    
+    if (opportunities.length === 0) {
+      return basePrompt + "\n\nNOTE: Aucune donnée d'opportunité disponible actuellement."
+    }
+
+    // Formater les opportunités pour l'IA
+    const formattedOpportunities = opportunities.map(opp => ({
+      titre: opp.opportunite,
+      type: opp.type,
+      localisation: opp.localisation,
+      secteur: opp.secteur_dactivite,
+      cible: opp.cible,
+      description: opp.description,
+      conditions: opp.conditions,
+      contacts: opp.contacts_de_la_structure,
+      liens: opp.liens,
+      date_expiration: opp.date_dexpiration,
+      source: opp.source
+    }))
+
+    const opportunitiesData = JSON.stringify(formattedOpportunities, null, 2)
+
+    return basePrompt + `
+
+DONNÉES D'OPPORTUNITÉS ACTUELLES (${opportunities.length} opportunités disponibles) :
+${opportunitiesData}
+
+INSTRUCTIONS IMPORTANTES :
+1. RÉPONDS TOUJOURS EN UTILISANT CES DONNÉES RÉELLES
+2. Si tu trouves des opportunités pertinentes, présente-les avec détails
+3. Si tu ne trouves pas d'opportunités correspondantes, dis-le clairement
+4. Ne redirige vers /opportunities QUE si l'utilisateur demande plus d'options
+5. Donne toujours les contacts et liens quand disponibles
+6. Mentionne les dates d'expiration importantes
+7. RESTE DANS LE CADRE DES OPPORTUNITÉS EN CÔTE D'IVOIRE
+8. Si la question sort du cadre, guide poliment vers des sujets pertinents
+
+EXEMPLES DE RÉPONSES :
+- "J'ai trouvé X opportunités correspondant à votre demande..."
+- "Malheureusement, je n'ai pas trouvé d'opportunités correspondant exactement à votre demande dans mes données actuelles. Vous pouvez consulter la page /opportunities pour plus d'options avec des filtres visuels."
+- "Voici les opportunités disponibles : [liste détaillée avec contacts]"
+
+CADRE D'ATTRIBUTIONS :
+Tu es spécialisé dans les opportunités en Côte d'Ivoire ET TOUT CE QUI AIDE À SAISIR CES OPPORTUNITÉS. Tu peux aider avec la rédaction de CV, lettres de motivation, préparation d'entretiens, montage de projets, procédures administratives, etc. Si une question sort de ce cadre, informe poliment l'utilisateur et guide-le vers des sujets pertinents.`
+  } catch (error) {
+    console.error('Erreur lors de la récupération des opportunités:', error)
+    return basePrompt + "\n\nNOTE: Erreur lors de la récupération des données d'opportunités."
+  }
 }
 
 export async function POST(req: Request) {
@@ -78,7 +134,8 @@ export async function POST(req: Request) {
       throw new Error(`Model ${model} not found`)
     }
 
-    const effectiveSystemPrompt = systemPrompt || SYSTEM_PROMPT_DEFAULT
+    const baseSystemPrompt = systemPrompt || SYSTEM_PROMPT_DEFAULT
+    const effectiveSystemPrompt = await enrichSystemPrompt(baseSystemPrompt)
 
     let apiKey: string | undefined
     if (isAuthenticated && userId) {

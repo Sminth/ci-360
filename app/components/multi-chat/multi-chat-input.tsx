@@ -93,10 +93,10 @@ export function MultiChatInput({
           />
           <PromptInputActions className="mt-5 w-full justify-between px-3 pb-3">
             <div className="flex gap-2">
-              <MultiModelSelector
+              {/* <MultiModelSelector
                 selectedModelIds={selectedModelIds}
                 setSelectedModelIds={onSelectedModelIdsChange}
-              />
+              /> */}
             </div>
             <PromptInputAction
               tooltip={status === "streaming" ? "Stop" : "Send"}

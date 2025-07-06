@@ -67,7 +67,8 @@ export async function checkUsage(supabase: SupabaseClient, userId: string) {
   }
 
   // Check if the daily limit is reached.
-  if (dailyCount >= dailyLimit) {
+  // LIMITES SUPPRIMÉES - TOUJOURS AUTORISER
+  if (dailyLimit !== Infinity && dailyCount >= dailyLimit) {
     throw new UsageLimitError("Daily message limit reached.")
   }
 
@@ -166,7 +167,8 @@ export async function checkProUsage(supabase: SupabaseClient, userId: string) {
     }
   }
 
-  if (dailyProCount >= DAILY_LIMIT_PRO_MODELS) {
+  // LIMITES SUPPRIMÉES - TOUJOURS AUTORISER
+  if (DAILY_LIMIT_PRO_MODELS !== Infinity && dailyProCount >= DAILY_LIMIT_PRO_MODELS) {
     throw new UsageLimitError("Daily Pro model limit reached.")
   }
 

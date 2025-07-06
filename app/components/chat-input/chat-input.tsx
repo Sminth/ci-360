@@ -159,7 +159,7 @@ export function ChatInput({
         >
           <FileList files={files} onFileRemove={onFileRemove} />
           <PromptInputTextarea
-            placeholder="Ask Zola"
+            placeholder="Demandez à CI-360..."
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
             className="min-h-[44px] pt-3 pl-4 text-base leading-[1.3] sm:text-base md:text-base"
@@ -168,15 +168,15 @@ export function ChatInput({
             <div className="flex gap-2">
               <ButtonFileUpload
                 onFileUpload={onFileUpload}
-                isUserAuthenticated={isUserAuthenticated}
+                isUserAuthenticated={!isUserAuthenticated}
                 model={selectedModel}
               />
-              <ModelSelector
+              {/* <ModelSelector
                 selectedModelId={selectedModel}
                 setSelectedModelId={onSelectModel}
                 isUserAuthenticated={isUserAuthenticated}
                 className="rounded-full"
-              />
+              /> */}
               {hasSearchSupport ? (
                 <ButtonSearch
                   isSelected={enableSearch}
