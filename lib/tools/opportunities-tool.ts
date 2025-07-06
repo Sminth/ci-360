@@ -1,5 +1,15 @@
 import { opportunitiesApi } from "@/lib/services/opportunities-api"
 
+interface OpportunitiesToolParams {
+  type?: string
+  location?: string
+  sector?: string
+  target?: string
+  query?: string
+  expiringSoon?: boolean
+  limit?: number
+}
+
 export const opportunitiesTool = {
   name: "opportunities",
   description: "Recherche des opportunités réelles en Côte d'Ivoire selon des critères (type, localisation, secteur, cible, mot-clé). Utilise cette fonction pour répondre aux questions sur les opportunités disponibles.",
@@ -37,7 +47,7 @@ export const opportunitiesTool = {
     },
     required: []
   },
-  async execute({ type, location, sector, target, query, expiringSoon, limit = 10 }) {
+  async execute({ type, location, sector, target, query, expiringSoon, limit = 10 }: OpportunitiesToolParams) {
     try {
       let opportunities
 
