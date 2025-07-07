@@ -19,7 +19,7 @@ services:
       retries: 3
       start_period: 30s
 
-  # Zola application
+  # CI-360application
   zola:
     build: .
     container_name: zola-app
