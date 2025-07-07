@@ -1,6 +1,5 @@
 "use client"
 
-import { Check, Copy } from "@phosphor-icons/react"
 import React, { useState } from "react"
 import { TextMorph } from "../motion-primitives/text-morph"
 

@@ -39,7 +39,7 @@ function CodeBlockCode({
   className,
   ...props
 }: CodeBlockCodeProps) {
-  const { theme: appTheme } = useTheme()
+  const { resolvedTheme: appTheme } = useTheme()
   const [highlightedHtml, setHighlightedHtml] = useState<string | null>(null)
 
   useEffect(() => {
@@ -51,10 +51,10 @@ function CodeBlockCode({
       setHighlightedHtml(html)
     }
     highlight()
-  }, [code, language, theme, appTheme])
+  }, [code, language, appTheme])
 
   const classNames = cn(
-    "w-full overflow-x-auto text-[13px] [&>pre]:px-4 [&>pre]:py-4",
+    "w-full overflow-x-auto text-[13px] [&>pre]:px-4 [&>pre]:py-4 [&>pre]:!bg-background",
     className
   )
 

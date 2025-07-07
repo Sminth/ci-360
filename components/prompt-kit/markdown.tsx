@@ -1,10 +1,16 @@
+import { LinkMarkdown } from "@/app/components/chat/link-markdown"
 import { cn } from "@/lib/utils"
 import { marked } from "marked"
 import { memo, useId, useMemo } from "react"
 import ReactMarkdown, { Components } from "react-markdown"
+import remarkBreaks from "remark-breaks"
 import remarkGfm from "remark-gfm"
 import { ButtonCopy } from "../common/button-copy"
-import { CodeBlock, CodeBlockCode, CodeBlockGroup } from "./code-block"
+import {
+  CodeBlock,
+  CodeBlockCode,
+  CodeBlockGroup,
+} from "../prompt-kit/code-block"
 
 export type MarkdownProps = {
   children: string
@@ -62,6 +68,15 @@ const INITIAL_COMPONENTS: Partial<Components> = {
       </CodeBlock>
     )
   },
+  a: function AComponent({ href, children, ...props }) {
+    if (!href) return <span {...props}>{children}</span>
+
+    return (
+      <LinkMarkdown href={href} {...props}>
+        {children}
+      </LinkMarkdown>
+    )
+  },
   pre: function PreComponent({ children }) {
     return <>{children}</>
   },
@@ -76,7 +91,10 @@ const MemoizedMarkdownBlock = memo(
     components?: Partial<Components>
   }) {
     return (
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkBreaks]}
+        components={components}
+      >
         {content}
       </ReactMarkdown>
     )

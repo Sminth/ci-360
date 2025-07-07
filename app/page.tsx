@@ -1,10 +1,15 @@
-import Link from "next/link"
+import { ChatContainer } from "@/app/components/chat/chat-container"
+import { LayoutApp } from "@/app/components/layout/layout-app"
+import { MessagesProvider } from "@/lib/chat-store/messages/provider"
+
+export const dynamic = "force-dynamic"
 
 export default function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-      <Link href="/chat">Chat</Link>
-    </div>
+    <MessagesProvider>
+      <LayoutApp>
+        <ChatContainer />
+      </LayoutApp>
+    </MessagesProvider>
   )
 }
