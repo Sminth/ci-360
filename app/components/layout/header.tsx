@@ -51,7 +51,7 @@ export function Header({ hasSidebar }: { hasSidebar: boolean }) {
                 {hasSidebar ? (
                   <MobileSidebar />
                 ) : (
-                  <MobileMenu />
+                <MobileMenu />
                 )}
               </div>
             </div>

@@ -8,6 +8,7 @@ import { OpportunitiesStats } from "@/app/components/opportunities/opportunities
 import { OpportunitiesFiltersSimple } from "@/app/components/opportunities/opportunities-filters-simple"
 import { OpportunitiesGrid } from "@/app/components/opportunities/opportunities-grid"
 import { sampleOpportunities, getOpportunitiesByType, getExpiringOpportunities, getOpportunitiesStats, type Opportunity } from "@/app/data/sample-opportunities"
+import { Heart } from "@phosphor-icons/react"
 
 interface FilterState {
   search: string
@@ -276,6 +277,18 @@ export default function OpportunitiesPage() {
           </div>
         </div>
       </div>
+      {/* Footer moderne et léger */}
+      <footer className="w-full mt-12 py-6 bg-background/80 backdrop-blur-md border-t border-primary/10 text-center text-muted-foreground text-sm flex flex-col items-center gap-2">
+        <div>
+          &copy; {new Date().getFullYear()} CI-360. Tous droits réservés.
+        </div>
+        <div className="flex items-center gap-1 justify-center">
+          Fait avec <Heart className="inline-block text-red-500 mx-1" weight="fill" size={16} /> par <span className="font-semibold text-primary ml-1">ThinkDev</span>
+        </div>
+        <div>
+          Contact : <a href="tel:0788364403" className="underline hover:text-primary">0788364403</a> | <a href="mailto:emmanuelmalan225@gmail.com" className="underline hover:text-primary">emmanuelmalan225@gmail.com</a>
+        </div>
+      </footer>
     </LayoutApp>
   )
 } 

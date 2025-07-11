@@ -31,6 +31,7 @@ type ChatRequest = {
 async function enrichSystemPrompt(basePrompt: string): Promise<string> {
   try {
     const opportunities = await getCachedOpportunities()
+    const currentDate = new Date().toISOString().split('T')[0] // Get current date in YYYY-MM-DD format
     
     if (opportunities.length === 0) {
       return basePrompt + "\n\nNOTE: Aucune donnée d'opportunité disponible actuellement."
@@ -55,6 +56,8 @@ async function enrichSystemPrompt(basePrompt: string): Promise<string> {
 
     return basePrompt + `
 
+DATE ACTUELLE: ${currentDate}
+
 DONNÉES D'OPPORTUNITÉS ACTUELLES (${opportunities.length} opportunités disponibles) :
 ${opportunitiesData}
 
@@ -62,11 +65,9 @@ INSTRUCTIONS IMPORTANTES :
 1. RÉPONDS TOUJOURS EN UTILISANT CES DONNÉES RÉELLES
 2. Si tu trouves des opportunités pertinentes, présente-les avec détails
 3. Si tu ne trouves pas d'opportunités correspondantes, dis-le clairement
-4. Ne redirige vers /opportunities QUE si l'utilisateur demande plus d'options
+4. Ne redirige vers le menu opportunities QUE si l'utilisateur demande plus d'options
 5. Donne toujours les contacts et liens quand disponibles
 6. Mentionne les dates d'expiration importantes
-7. RESTE DANS LE CADRE DES OPPORTUNITÉS EN CÔTE D'IVOIRE
-8. Si la question sort du cadre, guide poliment vers des sujets pertinents
 
 EXEMPLES DE RÉPONSES :
 - "J'ai trouvé X opportunités correspondant à votre demande..."
