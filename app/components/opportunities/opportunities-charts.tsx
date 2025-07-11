@@ -78,6 +78,7 @@ export function OpportunitiesCharts({
 
   return (
     <div className={`space-y-6 ${className}`}>
+      {/* <div className="flex flex-col gap-4"></div> */}
       {/* Contenu supprimé - sections "Répartition par catégorie" et "Répartition visuelle" retirées */}
     </div>
   )
